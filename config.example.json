@@ -1,0 +1,37 @@
+{
+  "productName": "Hit List",
+
+  "userName": "Your Name",
+  "userEmail": "you@example.com",
+  "userSlackId": "U0XXXXXXXXX",
+  "orgDomain": "example.com",
+
+  "timezone": "America/New_York",
+  "workHoursPerDay": 8,
+  "port": 3847,
+
+  "activeProjects": ["Project Alpha", "Project Beta"],
+  "excludeKeywords": [],
+
+  "claudePull": {
+    "enabled": true
+  },
+  "claudeBin": "claude",
+
+  "slack": {
+    "workspaceUrl": "https://your-workspace.slack.com"
+  },
+
+  "guidecx": {
+    "enabled": false,
+    "apiBase": "https://api.guidecx.com/api/v2",
+    "webBaseUrl": "https://your-org.guidecx.com",
+    "token": ""
+  },
+
+  "fathom": {
+    "enabled": false,
+    "apiBase": "https://api.fathom.ai/external/v1",
+    "apiKey": ""
+  }
+}

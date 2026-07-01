@@ -1,0 +1,389 @@
+/* === Hit List - High Performance HUD === */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* Material Symbols config */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* === Glass & Glow Effects === */
+.glass-card {
+  background: rgba(38, 42, 49, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 0.25rem;
+}
+
+.kinetic-border {
+  position: relative;
+}
+.kinetic-border::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #00fbfb, transparent);
+  opacity: 0.3;
+}
+
+/* === Side Nav === */
+.side-nav-link {
+  color: #b9cac9;
+  transition: all 0.2s ease-in-out;
+}
+.side-nav-link:hover {
+  background: rgba(24, 28, 34, 0.5);
+  color: #00fbfb;
+}
+.side-nav-link.active {
+  background: #181c22;
+  color: #00fbfb;
+  border-left: 4px solid #00fbfb;
+}
+
+/* === Task Cards === */
+.task {
+  cursor: grab;
+  transition: all 0.3s ease;
+}
+.task:active {
+  cursor: grabbing;
+}
+.task.done .card-inner {
+  filter: grayscale(1);
+  opacity: 0.4;
+}
+.task.done .task-text {
+  text-decoration: line-through;
+}
+.task.dragging {
+  opacity: 0.3;
+  transform: scale(0.98);
+}
+.task.drag-over {
+  box-shadow: 0 -2px 0 0 #00fbfb, 0 0 15px rgba(0, 251, 251, 0.15);
+}
+
+/* Task action buttons - hidden until hover */
+.task-actions {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.task:hover .task-actions {
+  opacity: 1;
+}
+
+/* Custom checkbox */
+.task-checkbox-visual {
+  width: 20px;
+  height: 20px;
+  border: 1px solid currentColor;
+  border-radius: 0.125rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.task-checkbox-visual .check-icon {
+  opacity: 0;
+  transition: opacity 0.2s;
+  font-size: 14px;
+}
+.task:hover .task-checkbox-visual .check-icon {
+  opacity: 0.5;
+}
+.task.done .task-checkbox-visual .check-icon {
+  opacity: 1;
+}
+.task.done .task-checkbox-visual {
+  background: currentColor;
+}
+.task.done .task-checkbox-visual .check-icon {
+  color: #10141a;
+}
+
+/* Notes inline edit */
+.task-notes {
+  font-size: 12px;
+  color: #b9cac9;
+  font-style: italic;
+  transition: all 0.2s;
+  outline: none;
+}
+.task-notes.empty {
+  color: #3a4a49;
+}
+.task-notes:focus {
+  outline: none;
+  box-shadow: 0 0 0 1px #00fbfb, 0 0 8px rgba(0, 251, 251, 0.15);
+  padding: 4px 8px;
+  border-radius: 0.125rem;
+  color: #dfe2eb;
+}
+.task-notes.empty:focus {
+  color: #dfe2eb;
+}
+
+/* === Meeting Cards === */
+.meeting-card {
+  transition: all 0.3s;
+}
+.meeting-card:hover {
+  background: rgba(38, 42, 49, 0.8);
+}
+
+/* === Modals === */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+.modal {
+  background: #1c2026;
+  border: 1px solid rgba(58, 74, 73, 0.3);
+  border-radius: 0.5rem;
+  padding: 32px;
+  min-width: 400px;
+  max-width: 520px;
+  box-shadow: 0 0 40px rgba(0, 251, 251, 0.06);
+}
+.modal h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.25rem;
+  color: #00fbfb;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 24px;
+}
+.modal label {
+  display: block;
+  margin: 16px 0 6px;
+  font-size: 10px;
+  color: #839493;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+}
+.modal input,
+.modal select,
+.modal textarea {
+  width: 100%;
+  padding: 10px 12px;
+  background: #0a0e14;
+  border: 1px solid rgba(58, 74, 73, 0.3);
+  border-radius: 0.125rem;
+  color: #dfe2eb;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s;
+}
+.modal input:focus,
+.modal select:focus,
+.modal textarea:focus {
+  outline: none;
+  border-color: #00fbfb;
+  box-shadow: 0 0 10px rgba(0, 251, 251, 0.15);
+}
+.modal select {
+  appearance: none;
+  cursor: pointer;
+}
+.modal select option {
+  background: #0a0e14;
+  color: #dfe2eb;
+}
+.modal textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+.modal button {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 0.125rem;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+.btn-primary {
+  background: linear-gradient(135deg, #00fbfb, #00dddd);
+  color: #002020;
+  box-shadow: 0 0 15px rgba(0, 251, 251, 0.3);
+}
+.btn-primary:hover {
+  box-shadow: 0 0 25px rgba(0, 251, 251, 0.5);
+  transform: translateY(-1px);
+}
+.btn-secondary {
+  background: transparent;
+  border: 1px solid rgba(58, 74, 73, 0.5);
+  color: #b9cac9;
+}
+.btn-secondary:hover {
+  border-color: #b9cac9;
+  color: #dfe2eb;
+}
+
+/* === Toasts === */
+.toast {
+  background: rgba(28, 32, 38, 0.95);
+  backdrop-filter: blur(12px);
+  color: #dfe2eb;
+  padding: 12px 20px;
+  border-radius: 0.25rem;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  border-left: 3px solid #00fbfb;
+  box-shadow: 0 0 20px rgba(0, 251, 251, 0.1);
+  animation: toast-in 0.3s ease-out;
+}
+.toast a {
+  color: #00fbfb;
+  margin-left: 8px;
+  text-decoration: none;
+  font-weight: 600;
+}
+.toast a:hover {
+  color: #fe00fe;
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* === Refresh button states === */
+#refresh-btn:disabled {
+  opacity: 0.5;
+  cursor: wait;
+  box-shadow: none;
+}
+
+/* === Scrollbar === */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #10141a;
+}
+::-webkit-scrollbar-thumb {
+  background: #3a4a49;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00fbfb;
+}
+
+/* === Project Filter Pills === */
+.filter-pill {
+  padding: 6px 16px;
+  border: 1px solid rgba(58, 74, 73, 0.4);
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #b9cac9;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.filter-pill:hover {
+  border-color: #00fbfb;
+  color: #00fbfb;
+}
+.filter-pill.active {
+  background: rgba(0, 251, 251, 0.12);
+  border-color: #00fbfb;
+  color: #00fbfb;
+  box-shadow: 0 0 10px rgba(0, 251, 251, 0.15);
+}
+
+/* === Empty state === */
+.tier-empty {
+  color: #3a4a49;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 16px;
+  text-align: center;
+}
+
+/* === Defer popover === */
+.defer-popover {
+  background: #1c2026;
+  border: 1px solid rgba(0, 251, 251, 0.25);
+  border-radius: 0.375rem;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 180px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 16px rgba(0, 251, 251, 0.08);
+  font-family: 'Inter', sans-serif;
+}
+.defer-popover button {
+  background: transparent;
+  border: none;
+  color: #dfe2eb;
+  font-size: 13px;
+  text-align: left;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 0.125rem;
+  transition: background 0.15s;
+}
+.defer-popover button:hover {
+  background: rgba(0, 251, 251, 0.08);
+  color: #00fbfb;
+}
+.defer-popover .defer-custom {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 12px;
+  border-top: 1px solid rgba(58, 74, 73, 0.3);
+  margin-top: 2px;
+}
+.defer-popover .defer-custom span {
+  font-size: 10px;
+  color: #839493;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.defer-popover .defer-custom input {
+  background: #0a0e14;
+  border: 1px solid rgba(58, 74, 73, 0.3);
+  border-radius: 0.125rem;
+  color: #dfe2eb;
+  padding: 6px 8px;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+}
+.defer-popover .defer-custom input:focus {
+  outline: none;
+  border-color: #00fbfb;
+}

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Hit List</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#ffffff",
+            "outline": "#839493",
+            "on-secondary-container": "#500050",
+            "secondary": "#ffabf3",
+            "surface": "#10141a",
+            "surface-container-highest": "#31353c",
+            "surface-container-high": "#262a31",
+            "tertiary-fixed-dim": "#2ae500",
+            "tertiary-fixed": "#79ff5b",
+            "on-tertiary": "#053900",
+            "on-surface-variant": "#b9cac9",
+            "secondary-fixed-dim": "#ffabf3",
+            "on-error": "#690005",
+            "primary-fixed": "#00fbfb",
+            "on-surface": "#dfe2eb",
+            "primary-container": "#00fbfb",
+            "surface-variant": "#31353c",
+            "error-container": "#93000a",
+            "primary-fixed-dim": "#00dddd",
+            "secondary-fixed": "#ffd7f5",
+            "secondary-container": "#fe00fe",
+            "error": "#ffb4ab",
+            "on-primary-fixed": "#002020",
+            "on-error-container": "#ffdad6",
+            "on-primary": "#003737",
+            "surface-bright": "#353940",
+            "on-primary-container": "#007070",
+            "tertiary-container": "#79ff5b",
+            "surface-container-low": "#181c22",
+            "surface-container-lowest": "#0a0e14",
+            "on-secondary": "#5b005b",
+            "outline-variant": "#3a4a49",
+            "on-background": "#dfe2eb",
+            "surface-dim": "#10141a",
+            "surface-container": "#1c2026",
+            "background": "#10141a",
+          },
+          borderRadius: {
+            DEFAULT: "0.125rem",
+            lg: "0.25rem",
+            xl: "0.5rem",
+            full: "0.75rem",
+          },
+          fontFamily: {
+            headline: ["Space Grotesk"],
+            body: ["Inter"],
+            label: ["Inter"],
+          },
+        },
+      },
+    }
+  </script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary-container/30">
+
+  <!-- Top Nav Bar -->
+  <nav id="top-nav" class="fixed top-0 w-full z-50 flex justify-between items-center px-8 h-16 bg-[#10141a]/80 backdrop-blur-xl border-b border-[#3a4a49]/15 shadow-[0_0_20px_rgba(0,251,251,0.06)]">
+    <div class="text-2xl font-bold tracking-wider text-[#00fbfb] font-headline uppercase cursor-pointer active:scale-95">Hit List</div>
+    <div class="flex items-center gap-8">
+      <div class="hidden md:flex items-center gap-6 text-xs font-label uppercase tracking-widest">
+        <a id="nav-todo" class="page-nav-link active text-[#00fbfb] border-b-2 border-[#00fbfb] hover:text-[#fe00fe] transition-colors duration-300" href="#/" data-page="todo">To-Do</a>
+        <a id="nav-warp-log" class="page-nav-link text-[#b9cac9] hover:text-[#fe00fe] transition-colors duration-300" href="#/warp-log" data-page="warp-log">Warp Log</a>
+      </div>
+      <div class="flex items-center gap-4 text-[#00fbfb]">
+        <span class="material-symbols-outlined cursor-pointer hover:text-[#fe00fe] transition-colors">settings</span>
+        <span class="material-symbols-outlined cursor-pointer hover:text-[#fe00fe] transition-colors">account_circle</span>
+        <!-- Add Task FAB -->
+        <button id="add-task-btn" class="w-10 h-10 bg-gradient-to-br from-primary-fixed to-primary-fixed-dim rounded shadow-[0_0_15px_rgba(0,251,251,0.3)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all group" title="Add Task">
+          <span class="material-symbols-outlined text-on-primary-fixed text-2xl transition-transform group-hover:rotate-90">add</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Side Nav -->
+  <aside class="fixed left-0 top-0 h-full w-64 border-r border-[#3a4a49]/15 bg-[#0a0e14] hidden lg:flex flex-col pt-20 pb-8 z-40">
+    <div class="px-6 mb-10 flex items-center gap-3">
+      <div class="w-10 h-10 rounded-[50%] overflow-hidden border border-primary-container/20 bg-surface-container-high flex items-center justify-center">
+        <span class="material-symbols-outlined text-primary-fixed text-xl">person</span>
+      </div>
+      <div>
+        <div id="operator-name" class="text-[#00fbfb] font-bold font-label text-xs uppercase tracking-[0.05em]">OPERATOR</div>
+        <div class="text-[#b9cac9] text-[10px] uppercase tracking-tighter">High Performance Mode</div>
+      </div>
+    </div>
+    <nav class="flex-grow space-y-1" id="side-nav-links">
+      <a class="side-nav-link active flex items-center gap-3 px-6 py-4 font-label text-xs font-medium uppercase tracking-[0.05em]" href="#meetings-section">
+        <span class="material-symbols-outlined">forum</span> Meeting Summary
+      </a>
+      <a class="side-nav-link flex items-center gap-3 px-6 py-4 font-label text-xs font-medium uppercase tracking-[0.05em]" href="#must-section">
+        <span class="material-symbols-outlined">priority_high</span> Must Do
+      </a>
+      <a class="side-nav-link flex items-center gap-3 px-6 py-4 font-label text-xs font-medium uppercase tracking-[0.05em]" href="#should-section">
+        <span class="material-symbols-outlined">trending_up</span> Should Do
+      </a>
+      <a class="side-nav-link flex items-center gap-3 px-6 py-4 font-label text-xs font-medium uppercase tracking-[0.05em]" href="#could-section">
+        <span class="material-symbols-outlined">lightbulb</span> Could Do
+      </a>
+      <a class="side-nav-link flex items-center gap-3 px-6 py-4 font-label text-xs font-medium uppercase tracking-[0.05em]" href="#blocked-section">
+        <span class="material-symbols-outlined">hourglass_empty</span> Blocked
+      </a>
+      <a class="side-nav-link flex items-center gap-3 px-6 py-4 font-label text-xs font-medium uppercase tracking-[0.05em]" href="#personal-section">
+        <span class="material-symbols-outlined">person</span> Personal
+      </a>
+      <a class="side-nav-link flex items-center gap-3 px-6 py-4 font-label text-xs font-medium uppercase tracking-[0.05em]" href="#done-section">
+        <span class="material-symbols-outlined">check_circle</span> Done
+      </a>
+    </nav>
+    <div class="mt-auto space-y-1">
+      <a class="flex items-center gap-3 px-6 py-3 text-[#b9cac9] hover:text-[#00fbfb] transition-all font-label text-xs uppercase" href="#">
+        <span class="material-symbols-outlined">settings</span> Settings
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main id="page-todo" data-page="todo" class="lg:pl-64 pt-16 min-h-screen">
+    <!-- Hero + Header-bar group (shader canvas sits behind both) -->
+    <div id="hero-wrapper" class="relative overflow-hidden">
+      <!-- Animated shader background: scoped to this wrapper, low opacity so text pops -->
+      <canvas id="shader-bg" class="absolute inset-0 w-full h-full pointer-events-none" style="opacity: 0.4;"></canvas>
+    <!-- Hero Banner -->
+    <section id="hero" class="relative h-80 flex flex-col justify-center px-8 md:px-16">
+      <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-transparent"></div>
+      </div>
+      <div class="relative z-10 max-w-4xl">
+        <h1 id="header-title" class="text-6xl md:text-8xl font-headline font-bold text-primary-fixed leading-none tracking-tighter mb-4">
+          HIT LIST
+        </h1>
+        <p class="text-secondary font-label italic text-lg md:text-xl max-w-2xl border-l-2 border-secondary pl-6 py-2">
+          "It is not that we have a short time to live, but that we waste a great deal of it."<br>
+          <span class="text-on-surface-variant text-sm font-normal not-italic tracking-[0.2em]">&#8212; SENECA</span>
+        </p>
+      </div>
+      <!-- HUD Metrics -->
+      <div class="absolute bottom-8 right-8 hidden md:flex gap-12">
+        <div class="text-right">
+          <div class="text-on-surface-variant text-[10px] uppercase tracking-widest">Active Missions</div>
+          <div id="metric-active" class="text-primary-fixed text-4xl font-headline font-light">0</div>
+        </div>
+        <div class="text-right">
+          <div class="text-on-surface-variant text-[10px] uppercase tracking-widest">Velocity Rate</div>
+          <div id="metric-velocity" class="text-tertiary-fixed text-4xl font-headline font-light">0%</div>
+        </div>
+        <div class="text-right">
+          <div class="text-on-surface-variant text-[10px] uppercase tracking-widest">Meeting Load</div>
+          <div id="metric-meetings" class="text-secondary text-4xl font-headline font-light">0h</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Header Meta (refresh info + button) -->
+    <div id="header-bar" class="relative flex items-center justify-between px-8 md:px-16 py-4 border-b border-outline-variant/10">
+      <div class="flex items-center gap-6">
+        <div id="header-stats" class="text-on-surface-variant text-xs uppercase tracking-widest"></div>
+        <div id="header-meta" class="text-on-surface-variant/50 text-[10px] uppercase tracking-widest"></div>
+      </div>
+      <button id="refresh-btn" class="bg-secondary-container text-on-secondary-container px-6 py-2 text-xs font-bold uppercase tracking-widest hover:brightness-125 transition-all shadow-[0_0_15px_rgba(254,0,254,0.3)] flex items-center gap-2">
+        <span class="material-symbols-outlined text-sm">refresh</span>
+        REFRESH
+      </button>
+    </div>
+    </div>
+    <!-- /hero-wrapper -->
+
+    <!-- Task Content -->
+    <div class="px-8 md:px-16 py-12 space-y-20">
+
+      <!-- Meetings Section -->
+      <section id="meetings-section">
+        <div class="flex items-center gap-4 mb-4">
+          <h2 class="text-2xl font-headline uppercase tracking-widest text-primary-fixed">Meeting Summary</h2>
+          <div class="h-[1px] flex-grow bg-outline-variant/15"></div>
+        </div>
+        <div class="flex items-center gap-4 mb-8">
+          <span id="meetings-meta" class="text-secondary-fixed text-xs font-bold tracking-[0.2em] uppercase"></span>
+        </div>
+        <div id="meetings" class="space-y-1"></div>
+      </section>
+
+      <!-- Project Filter -->
+      <div id="project-filter" class="flex items-center gap-3 flex-wrap">
+        <span class="text-on-surface-variant text-[10px] font-bold uppercase tracking-widest mr-1">Filter</span>
+      </div>
+
+      <!-- Source Filter -->
+      <div id="source-filter" class="flex items-center gap-3 flex-wrap">
+        <span class="text-on-surface-variant text-[10px] font-bold uppercase tracking-widest mr-1">Source</span>
+      </div>
+
+      <!-- Must Do -->
+      <section id="must-section" class="tier" data-tier="must_do">
+        <div class="flex items-center gap-4 mb-8">
+          <h2 class="text-2xl font-headline uppercase tracking-widest text-error">Must Do</h2>
+          <div class="h-[1px] flex-grow bg-outline-variant/15"></div>
+        </div>
+        <div class="tasks grid grid-cols-1 lg:grid-cols-3 gap-6"></div>
+      </section>
+
+      <!-- Should Do / Could Do - Asymmetric Layout -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <section id="should-section" class="tier" data-tier="should_do">
+          <div class="flex items-center gap-4 mb-8">
+            <h2 class="text-xl font-headline uppercase tracking-widest text-secondary-container">Should Do</h2>
+            <div class="h-[1px] flex-grow bg-outline-variant/15"></div>
+          </div>
+          <div class="tasks space-y-4"></div>
+        </section>
+
+        <section id="could-section" class="tier" data-tier="could_do">
+          <div class="flex items-center gap-4 mb-8">
+            <h2 class="text-xl font-headline uppercase tracking-widest text-tertiary-fixed">Could Do</h2>
+            <div class="h-[1px] flex-grow bg-outline-variant/15"></div>
+          </div>
+          <div class="tasks space-y-4 opacity-70 hover:opacity-100 transition-opacity"></div>
+        </section>
+      </div>
+
+      <!-- Blocked / Personal - Bento Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <section id="blocked-section" class="tier lg:col-span-2" data-tier="blocked">
+          <div class="flex items-center gap-4 mb-8">
+            <h2 class="text-xl font-headline uppercase tracking-widest text-on-surface-variant">Blocked / Waiting</h2>
+            <div class="h-[1px] flex-grow bg-outline-variant/15"></div>
+          </div>
+          <div class="tasks grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </section>
+
+        <section id="personal-section" class="tier" data-tier="personal">
+          <div class="flex items-center gap-4 mb-8">
+            <h2 class="text-xl font-headline uppercase tracking-widest text-primary-fixed">Personal</h2>
+            <div class="h-[1px] flex-grow bg-outline-variant/15"></div>
+          </div>
+          <div class="tasks glass-card p-6 border-t-2 border-primary-fixed shadow-xl space-y-4"></div>
+        </section>
+      </div>
+
+      <!-- Done Section -->
+      <section id="done-section" class="pb-20">
+        <div class="flex items-center gap-4 mb-8">
+          <h2 class="text-xl font-headline uppercase tracking-widest text-tertiary-fixed-dim">Done</h2>
+          <div id="done-count" class="text-tertiary-fixed-dim text-xs font-bold tracking-widest"></div>
+          <div class="h-[1px] flex-grow bg-outline-variant/15"></div>
+        </div>
+        <div id="done-tasks" class="space-y-2"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <main id="page-warp-log" data-page="warp-log" class="lg:pl-64 pt-16 min-h-screen hidden">
+    <div class="px-8 md:px-16 py-12">
+      <h1 class="text-5xl md:text-6xl font-headline font-bold text-primary-fixed leading-none tracking-tighter mb-2">Warp Log</h1>
+      <p class="text-on-surface-variant text-sm mb-8 uppercase tracking-widest">Where your time went</p>
+      <div id="warp-log-content"></div>
+    </div>
+  </main>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="fixed bottom-6 right-6 flex flex-col gap-3 z-[100]"></div>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>

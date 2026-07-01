@@ -1,0 +1,23 @@
+{
+  "name": "hit-list",
+  "version": "0.1.0",
+  "description": "A local, single-user daily to-do dashboard that pulls tasks from your tools (GuideCX, Fathom, Slack, Gmail, Google Calendar) and gives Claude two-way MCP access to the same list.",
+  "type": "module",
+  "license": "MIT",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "install:agent": "node scripts/install.js",
+    "uninstall:agent": "node scripts/uninstall.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "better-sqlite3": "^11.0.0",
+    "express": "^4.19.0",
+    "zod": "^4.3.6"
+  }
+}

@@ -1,0 +1,11 @@
+node_modules/
+*.log
+.DS_Store
+
+# Your personal config holds secrets (API tokens). Never commit it.
+config.json
+
+# Local state, if you ever keep it in-repo
+state.json
+*.db
+*.db-*
