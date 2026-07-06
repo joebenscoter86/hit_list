@@ -61,7 +61,7 @@ None of the integrations are required. With all of them off, Hit List is still a
 ## Quickstart
 
 ```bash
-git clone <your-fork-url> hit-list
+git clone https://github.com/joebenscoter86/hit_list.git hit-list
 cd hit-list
 npm install
 
